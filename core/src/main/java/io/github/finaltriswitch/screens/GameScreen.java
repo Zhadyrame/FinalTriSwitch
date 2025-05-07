@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
     }
 
     private void handleInput() {
-        float speed = 200 * Gdx.graphics.getDeltaTime();
+        float speed = 400 * Gdx.graphics.getDeltaTime(); // Увеличили скорость в 2 раза
         Character active = (gameLogic != null) ? gameLogic.getActiveCharacter() : null;
 
         if (active != null) {

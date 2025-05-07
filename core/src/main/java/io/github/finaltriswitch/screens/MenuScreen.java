@@ -36,10 +36,10 @@ public class MenuScreen extends ScreenAdapter {
         if (game != null && game.getBatch() != null) {
             game.getBatch().begin();
             if (menuTexture != null) {
-                game.getBatch().draw(menuTexture, 0, 0);
+                game.getBatch().draw(menuTexture, 0, 0, 1600, 1200); // Новый размер меню
             } else {
                 Gdx.app.log("MenuScreen", "menuTexture is null, displaying fallback");
-                game.getBatch().draw(new Texture("badlogic.png"), 0, 0); // Заглушка, если текстуры нет
+                game.getBatch().draw(new Texture("badlogic.png"), 0, 0, 1600, 1200);
             }
             game.getBatch().end();
         }

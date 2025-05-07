@@ -4,17 +4,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Level1 {
-    private Texture background;
+    private Texture levelTexture;
 
     public Level1() {
-        background = new Texture("assets/level1.png");
+        levelTexture = new Texture("assets/level1.png");
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(background, 0, 0);
+        if (levelTexture != null) {
+            batch.draw(levelTexture, 0, 0, 1600, 1200); // Новый размер карты
+        }
     }
 
     public void dispose() {
-        background.dispose();
+        if (levelTexture != null) levelTexture.dispose();
     }
 }

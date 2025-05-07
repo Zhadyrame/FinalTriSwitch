@@ -3,41 +3,32 @@ package io.github.finaltriswitch.characters;
 import com.badlogic.gdx.Gdx;
 
 public class MissJ extends Character {
-    private boolean canDoubleJump;
+    private float velocityY;
     private boolean isJumping;
 
     public MissJ(float x, float y) {
-        super("assets/missj.png", x, y);
-        canDoubleJump = false;
+        super(x, y, "assets/missj.png");
+        velocityY = 0;
         isJumping = false;
     }
 
     public void jump() {
         if (!isJumping) {
-            move(0, 100);
+            velocityY = 600; // Увеличили высоту прыжка в 2 раза
             isJumping = true;
-            canDoubleJump = true;
-        } else if (canDoubleJump) {
-            move(0, 100);
-            canDoubleJump = false;
-        }
-    }
-
-    @Override
-    public void move(float dx, float dy) {
-        super.move(dx, dy);
-        if (getY() <= 50) {
-            isJumping = false;
-            canDoubleJump = false;
         }
     }
 
     @Override
     public void act(float delta) {
-        super.act(delta);
-        // Simulate gravity
-        if (getY() > 50) {
-            move(0, -200 * delta);
+        if (isJumping) {
+            y += velocityY * delta;
+            velocityY -= 1200 * delta; // Увеличили гравитацию в 2 раза
+            if (y <= 200) { // Увеличили уровень земли в 2 раза
+                y = 200;
+                velocityY = 0;
+                isJumping = false;
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ import io.github.finaltriswitch.levels.Level3;
 
 public class PlayScreen extends ScreenAdapter {
     private FinalTriSwitch game;
-    private Stage stage;
+    private Stage stage; // Оставляем для камеры
     private OrthographicCamera camera;
     private FitViewport viewport;
     private GameLogic gameLogic;
@@ -33,7 +33,7 @@ public class PlayScreen extends ScreenAdapter {
     public PlayScreen(FinalTriSwitch game) {
         this.game = game;
         camera = new OrthographicCamera();
-        viewport = new FitViewport(800, 600, camera);
+        viewport = new FitViewport(1600, 1200, camera);
         stage = new Stage(viewport, game.getBatch());
         gameLogic = new GameLogic();
         level1 = new Level1();
@@ -42,12 +42,6 @@ public class PlayScreen extends ScreenAdapter {
         currentLevel = 1;
         timer = 0;
         record = 0;
-
-        if (gameLogic != null) {
-            stage.addActor(gameLogic.getMissJ());
-            stage.addActor(gameLogic.getMissK());
-            stage.addActor(gameLogic.getMrB());
-        }
 
         Gdx.input.setInputProcessor(new com.badlogic.gdx.InputAdapter() {
             @Override
@@ -67,7 +61,7 @@ public class PlayScreen extends ScreenAdapter {
     }
 
     private void handleInput() {
-        float speed = 200 * Gdx.graphics.getDeltaTime();
+        float speed = 400 * Gdx.graphics.getDeltaTime();
         Character active = (gameLogic != null) ? gameLogic.getActiveCharacter() : null;
 
         if (active != null) {
@@ -82,7 +76,7 @@ public class PlayScreen extends ScreenAdapter {
                 level2.moveBlock(newX, newY);
             }
             if (Gdx.input.isKeyPressed(Keys.P) && active instanceof MrB && currentLevel == 3 && level3 != null) {
-                if (Math.abs(active.getX() - level3.getButtonX()) < 50 && Math.abs(active.getY() - level3.getButtonY()) < 50) {
+                if (Math.abs(active.getX() - level3.getButtonX()) < 100 && Math.abs(active.getY() - level3.getButtonY()) < 100) {
                     level3.openDoor();
                 }
             }
@@ -95,15 +89,15 @@ public class PlayScreen extends ScreenAdapter {
             if (currentLevel == 2 && level2 != null) {
                 float blockX = level2.getBlockX();
                 float blockY = level2.getBlockY();
-                if (Math.abs(active.getX() - blockX) < 32 && Math.abs(active.getY() - blockY) < 32) {
-                    active.move(active.getX() < blockX ? -5 : 5, 0);
+                if (Math.abs(active.getX() - blockX) < 64 && Math.abs(active.getY() - blockY) < 64) {
+                    active.move(active.getX() < blockX ? -10 : 10, 0);
                 }
             }
             if (currentLevel == 3 && level3 != null && !level3.isDoorOpen()) {
                 float doorX = level3.getDoorX();
                 float doorY = level3.getDoorY();
-                if (Math.abs(active.getX() - doorX) < 32 && Math.abs(active.getY() - doorY) < 32) {
-                    active.move(active.getX() < doorX ? -5 : 5, 0);
+                if (Math.abs(active.getX() - doorX) < 64 && Math.abs(active.getY() - doorY) < 64) {
+                    active.move(active.getX() < doorX ? -10 : 10, 0);
                 }
             }
         }
@@ -111,7 +105,7 @@ public class PlayScreen extends ScreenAdapter {
 
     private void checkWinCondition() {
         Character active = (gameLogic != null) ? gameLogic.getActiveCharacter() : null;
-        if (active != null && active.getX() > 700) {
+        if (active != null && active.getX() > 1400) {
             if (gameLogic != null) {
                 gameLogic.setReachedGoal(active);
                 if (currentLevel == 1 && gameLogic.allReachedGoal()) {
@@ -135,9 +129,9 @@ public class PlayScreen extends ScreenAdapter {
 
     private void resetPositions() {
         if (gameLogic != null) {
-            gameLogic.getMissJ().setPosition(100, 100);
-            gameLogic.getMissK().setPosition(150, 100);
-            gameLogic.getMrB().setPosition(200, 100);
+            gameLogic.getMissJ().setPosition(200, 200);
+            gameLogic.getMissK().setPosition(300, 200);
+            gameLogic.getMrB().setPosition(400, 200);
             gameLogic.switchToMissJ();
         }
     }
@@ -153,6 +147,7 @@ public class PlayScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (game != null && game.getBatch() != null) {
+            game.getBatch().setProjectionMatrix(camera.combined); // Используем камеру для масштаба
             game.getBatch().begin();
             if (currentLevel == 1 && level1 != null) level1.render(game.getBatch());
             else if (currentLevel == 2 && level2 != null) level2.render(game.getBatch());
@@ -162,10 +157,6 @@ public class PlayScreen extends ScreenAdapter {
         }
 
         if (gameLogic != null) gameLogic.update(delta);
-        if (stage != null) {
-            stage.act(delta);
-            stage.draw();
-        }
     }
 
     @Override

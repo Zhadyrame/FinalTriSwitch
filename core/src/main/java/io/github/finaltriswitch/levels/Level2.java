@@ -4,25 +4,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Level2 {
-    private Texture background;
-    private Texture metalBlock;
-    private float blockX = 400;
-    private float blockY = 50;
+    private Texture levelTexture;
+    private Texture blockTexture;
+    private float blockX;
+    private float blockY;
 
     public Level2() {
-        background = new Texture("assets/level2.png");
-        metalBlock = new Texture("assets/metal_block.png");
+        levelTexture = new Texture("assets/level2.png");
+        blockTexture = new Texture("assets/metal_block.png");
+        blockX = 800; // Увеличили координаты в 2 раза
+        blockY = 600;
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(background, 0, 0);
-        batch.draw(metalBlock, blockX, blockY, 32, 32);
-    }
-
-    public void moveBlock(float x, float y) {
-        blockX = x;
-        blockY = y;
-        if (blockY < 50) blockY = 50;
+        if (levelTexture != null) {
+            batch.draw(levelTexture, 0, 0, 1600, 1200); // Новый размер карты
+        }
+        if (blockTexture != null) {
+            batch.draw(blockTexture, blockX, blockY);
+        }
     }
 
     public float getBlockX() {
@@ -33,8 +33,13 @@ public class Level2 {
         return blockY;
     }
 
+    public void moveBlock(float newX, float newY) {
+        blockX = newX;
+        blockY = newY;
+    }
+
     public void dispose() {
-        background.dispose();
-        metalBlock.dispose();
+        if (levelTexture != null) levelTexture.dispose();
+        if (blockTexture != null) blockTexture.dispose();
     }
 }

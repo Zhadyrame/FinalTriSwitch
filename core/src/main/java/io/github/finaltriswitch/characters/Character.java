@@ -1,39 +1,44 @@
 package io.github.finaltriswitch.characters;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class Character extends Actor {
+public abstract class Character {
+    protected float x;
+    protected float y;
     protected Texture texture;
 
-    public Character(String texturePath, float x, float y) {
-        try {
-            this.texture = new Texture(Gdx.files.internal(texturePath));
-        } catch (Exception e) {
-            Gdx.app.error("Character", "Failed to load texture: " + texturePath, e);
-            Gdx.app.exit();
+    public Character(float x, float y, String texturePath) {
+        this.x = x;
+        this.y = y;
+        this.texture = new Texture(texturePath);
+    }
+
+    public void act(float delta) {
+    }
+
+    public void draw(SpriteBatch batch, float alpha) {
+        if (texture != null) {
+            batch.draw(texture, x, y);
         }
-        setPosition(x, y);
-        setSize(32, 32);
     }
 
     public void move(float dx, float dy) {
-        moveBy(dx, dy);
-        if (getY() < 50) setY(50); // Simple ground collision
+        x += dx;
+        y += dy;
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        if (texture != null) {
-            batch.draw(texture, getX(), getY(), getWidth(), getHeight());
-        }
+    public float getX() {
+        return x;
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
+    public float getY() {
+        return y;
+    }
+
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 
     public void dispose() {
