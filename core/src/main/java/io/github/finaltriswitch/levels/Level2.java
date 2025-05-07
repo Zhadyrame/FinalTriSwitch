@@ -12,8 +12,8 @@ public class Level2 {
     public Level2() {
         levelTexture = new Texture("assets/level2.png");
         blockTexture = new Texture("assets/metal_block.png");
-        blockX = 800; // Увеличили координаты в 2 раза
-        blockY = 600;
+        blockX = 300; // Увеличили координаты в 2 раза
+        blockY = 500;
     }
 
     public void render(SpriteBatch batch) {

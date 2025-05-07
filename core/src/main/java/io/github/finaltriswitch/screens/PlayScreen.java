@@ -67,8 +67,8 @@ public class PlayScreen extends ScreenAdapter {
         if (active != null) {
             if (Gdx.input.isKeyPressed(Keys.LEFT)) active.move(-speed, 0);
             if (Gdx.input.isKeyPressed(Keys.RIGHT)) active.move(speed, 0);
-            if (Gdx.input.isKeyPressed(Keys.SPACE) && active instanceof MissJ) {
-                ((MissJ) active).jump();
+            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+                active.jump();
             }
             if (Gdx.input.isKeyPressed(Keys.M) && active instanceof MissK && currentLevel == 2 && level2 != null) {
                 float newX = level2.getBlockX() + (Gdx.input.isKeyPressed(Keys.LEFT) ? -speed : Gdx.input.isKeyPressed(Keys.RIGHT) ? speed : 0);
@@ -82,6 +82,7 @@ public class PlayScreen extends ScreenAdapter {
             }
         }
     }
+
 
     private void checkCollisions() {
         Character active = (gameLogic != null) ? gameLogic.getActiveCharacter() : null;
@@ -105,7 +106,7 @@ public class PlayScreen extends ScreenAdapter {
 
     private void checkWinCondition() {
         Character active = (gameLogic != null) ? gameLogic.getActiveCharacter() : null;
-        if (active != null && active.getX() > 1400) {
+        if (active != null && active.getX() > 1000) {
             if (gameLogic != null) {
                 gameLogic.setReachedGoal(active);
                 if (currentLevel == 1 && gameLogic.allReachedGoal()) {
@@ -129,9 +130,9 @@ public class PlayScreen extends ScreenAdapter {
 
     private void resetPositions() {
         if (gameLogic != null) {
-            gameLogic.getMissJ().setPosition(200, 200);
-            gameLogic.getMissK().setPosition(300, 200);
-            gameLogic.getMrB().setPosition(400, 200);
+            gameLogic.getMissJ().setPosition(20, 20);
+            gameLogic.getMissK().setPosition(30, 20);
+            gameLogic.getMrB().setPosition(40, 20);
             gameLogic.switchToMissJ();
         }
     }

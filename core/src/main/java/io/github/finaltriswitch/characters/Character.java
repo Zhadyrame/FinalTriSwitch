@@ -15,13 +15,15 @@ public abstract class Character {
     }
 
     public void act(float delta) {
+
     }
 
     public void draw(SpriteBatch batch, float alpha) {
         if (texture != null) {
-            batch.draw(texture, x, y);
+            batch.draw(texture, x, y, texture.getWidth() * 0.4f, texture.getHeight() * 0.4f);
         }
     }
+
 
     public void move(float dx, float dy) {
         x += dx;
@@ -43,5 +45,8 @@ public abstract class Character {
 
     public void dispose() {
         if (texture != null) texture.dispose();
+    }
+
+    public void jump() {
     }
 }

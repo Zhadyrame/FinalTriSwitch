@@ -16,9 +16,9 @@ public class GameLogic {
     private boolean mrBReachedGoal;
 
     public GameLogic() {
-        missJ = new MissJ(200, 200); // Увеличили координаты в 2 раза
-        missK = new MissK(300, 200);
-        mrB = new MrB(400, 200);
+        missJ = new MissJ(400, 600); // Увеличили координаты в 2 раза
+        missK = new MissK(0, 150);
+        mrB = new MrB(700, 450);
         activeCharacter = missJ;
         missJReachedGoal = false;
         missKReachedGoal = false;

@@ -23,7 +23,7 @@ public class MissJ extends Character {
     public void act(float delta) {
         if (isJumping) {
             y += velocityY * delta;
-            velocityY -= 1200 * delta; // Увеличили гравитацию в 2 раза
+            velocityY -= 1300 * delta; // Увеличили гравитацию в 2 раза
             if (y <= 200) { // Увеличили уровень земли в 2 раза
                 y = 200;
                 velocityY = 0;
