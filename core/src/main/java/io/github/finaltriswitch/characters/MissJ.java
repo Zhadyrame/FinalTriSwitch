@@ -30,5 +30,3 @@ public class MissJ implements Character {
     @Override
     public void dispose() { texture.dispose(); }
 }
-
-
