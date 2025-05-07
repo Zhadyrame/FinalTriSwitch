@@ -17,18 +17,31 @@ public class MenuScreen extends ScreenAdapter {
     @Override
     public void show() {
         menuTexture = new Texture("assets/menu.png");
+        Gdx.app.log("MenuScreen", "Texture loaded: " + (menuTexture != null));
+        Gdx.input.setInputProcessor(new com.badlogic.gdx.InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Keys.ENTER) {
+                    Gdx.app.log("MenuScreen", "Enter pressed, switching to PlayScreen");
+                    game.setScreen(new PlayScreen(game));
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public void render(float delta) {
         if (game != null && game.getBatch() != null) {
             game.getBatch().begin();
-            if (menuTexture != null) game.getBatch().draw(menuTexture, 0, 0);
+            if (menuTexture != null) {
+                game.getBatch().draw(menuTexture, 0, 0);
+            } else {
+                Gdx.app.log("MenuScreen", "menuTexture is null, displaying fallback");
+                game.getBatch().draw(new Texture("badlogic.png"), 0, 0); // Заглушка, если текстуры нет
+            }
             game.getBatch().end();
-        }
-
-        if (Gdx.input.isKeyPressed(Keys.ENTER)) {
-            game.setScreen(new PlayScreen(game));
         }
     }
 
