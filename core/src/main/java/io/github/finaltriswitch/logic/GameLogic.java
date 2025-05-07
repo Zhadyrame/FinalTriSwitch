@@ -16,76 +16,53 @@ public class GameLogic {
     private boolean mrBReachedGoal;
 
     public GameLogic() {
-        missJ = new MissJ(400, 600); // Увеличили координаты в 2 раза
+        missJ = new MissJ(400, 600);
         missK = new MissK(0, 150);
         mrB = new MrB(700, 450);
         activeCharacter = missJ;
-        missJReachedGoal = false;
-        missKReachedGoal = false;
-        mrBReachedGoal = false;
+        resetGoals();
     }
 
-    public void switchToMissJ() {
-        activeCharacter = missJ;
-    }
+    public void switchToMissJ() { activeCharacter = missJ; }
+    public void switchToMissK() { activeCharacter = missK; }
+    public void switchToMrB() { activeCharacter = mrB; }
 
-    public void switchToMissK() {
-        activeCharacter = missK;
-    }
-
-    public void switchToMrB() {
-        activeCharacter = mrB;
-    }
-
-    public Character getActiveCharacter() {
-        return activeCharacter;
-    }
-
-    public MissJ getMissJ() {
-        return missJ;
-    }
-
-    public MissK getMissK() {
-        return missK;
-    }
-
-    public MrB getMrB() {
-        return mrB;
-    }
+    public Character getActiveCharacter() { return activeCharacter; }
+    public MissJ getMissJ() { return missJ; }
+    public MissK getMissK() { return missK; }
+    public MrB getMrB() { return mrB; }
 
     public void update(float delta) {
-        if (missJ != null) missJ.act(delta);
-        if (missK != null) missK.act(delta);
-        if (mrB != null) mrB.act(delta);
+        missJ.act(delta);
+        missK.act(delta);
+        mrB.act(delta);
     }
 
     public void render(SpriteBatch batch) {
-        if (missJ != null) missJ.draw(batch, 1);
-        if (missK != null) missK.draw(batch, 1);
-        if (mrB != null) mrB.draw(batch, 1);
+        missJ.draw(batch, 1);
+        missK.draw(batch, 1);
+        mrB.draw(batch, 1);
     }
 
     public void setReachedGoal(Character character) {
-        if (character == missJ) missJReachedGoal = true;
-        if (character == missK) missKReachedGoal = true;
-        if (character == mrB) mrBReachedGoal = true;
+        if (character instanceof MissJ) missJReachedGoal = true;
+        else if (character instanceof MissK) missKReachedGoal = true;
+        else if (character instanceof MrB) mrBReachedGoal = true;
     }
 
     public boolean allReachedGoal() {
         return missJReachedGoal && missKReachedGoal && mrBReachedGoal;
     }
 
-    public int getReachedCount() {
-        int count = 0;
-        if (missJReachedGoal) count++;
-        if (missKReachedGoal) count++;
-        if (mrBReachedGoal) count++;
-        return count;
+    public void resetGoals() {
+        missJReachedGoal = false;
+        missKReachedGoal = false;
+        mrBReachedGoal = false;
     }
 
     public void dispose() {
-        if (missJ != null) missJ.dispose();
-        if (missK != null) missK.dispose();
-        if (mrB != null) mrB.dispose();
+        missJ.dispose();
+        missK.dispose();
+        mrB.dispose();
     }
 }

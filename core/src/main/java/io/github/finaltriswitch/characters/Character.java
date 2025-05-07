@@ -15,7 +15,7 @@ public abstract class Character {
     }
 
     public void act(float delta) {
-
+        // логика обновления персонажа
     }
 
     public void draw(SpriteBatch batch, float alpha) {
@@ -23,7 +23,6 @@ public abstract class Character {
             batch.draw(texture, x, y, texture.getWidth() * 0.4f, texture.getHeight() * 0.4f);
         }
     }
-
 
     public void move(float dx, float dy) {
         x += dx;
@@ -38,6 +37,14 @@ public abstract class Character {
         return y;
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
@@ -48,5 +55,15 @@ public abstract class Character {
     }
 
     public void jump() {
+        // прыжок (переопределяется в наследниках, если нужно)
     }
+
+    public void setReachedGoal(boolean b) {
+        // логика достижения цели (переопределяется в наследниках)
+    }
+
+    public boolean isReachedGoal() {
+        return false;
+    }
+
 }
