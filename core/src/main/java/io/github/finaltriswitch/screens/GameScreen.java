@@ -1,71 +1,88 @@
 package io.github.finaltriswitch.screens;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import io.github.finaltriswitch.Main;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL20;
+import io.github.finaltriswitch.FinalTriSwitch;
+import io.github.finaltriswitch.logic.GameLogic;
 import io.github.finaltriswitch.characters.Character;
-import io.github.finaltriswitch.characters.MissJ;
-import io.github.finaltriswitch.characters.MissK;
-import io.github.finaltriswitch.characters.MrB;
 
-public class GameScreen extends ScreenAdapter {
-    private final Main game;
-    private final SpriteBatch batch;
-    private final Texture background;
-    private final Character[] characters;
-    private int currentCharacterIndex;
+public class GameScreen implements Screen {
+    private FinalTriSwitch game;
+    private GameLogic gameLogic;
 
-    public GameScreen(Main game) {
+    public GameScreen(FinalTriSwitch game) {
         this.game = game;
-        batch = new SpriteBatch();
-        background = new Texture("backgrounds/level1.png");
-        characters = new Character[] {
-            new MissJ(),
-            new MissK(),
-            new MrB()
-        };
-        currentCharacterIndex = 0;
+        this.gameLogic = new GameLogic();
+
+        Gdx.input.setInputProcessor(new com.badlogic.gdx.InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (gameLogic != null) {
+                    if (keycode == Keys.NUM_1) {
+                        gameLogic.switchToMissJ();
+                    } else if (keycode == Keys.NUM_2) {
+                        gameLogic.switchToMissK();
+                    } else if (keycode == Keys.NUM_3) {
+                        gameLogic.switchToMrB();
+                    }
+                }
+                return true;
+            }
+        });
     }
 
-    private Character getActiveCharacter() {
-        return characters[currentCharacterIndex];
+    private void handleInput() {
+        float speed = 200 * Gdx.graphics.getDeltaTime();
+        Character active = (gameLogic != null) ? gameLogic.getActiveCharacter() : null;
+
+        if (active != null) {
+            if (Gdx.input.isKeyPressed(Keys.LEFT)) active.move(-speed, 0);
+            if (Gdx.input.isKeyPressed(Keys.RIGHT)) active.move(speed, 0);
+        }
     }
 
     @Override
     public void render(float delta) {
-        batch.begin();
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        getActiveCharacter().render(batch);
-        batch.end();
-
         handleInput();
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (game != null && game.getBatch() != null && gameLogic != null) {
+            game.getBatch().begin();
+            gameLogic.render(game.getBatch());
+            game.getBatch().end();
+        }
+
+        if (gameLogic != null) gameLogic.update(delta);
     }
 
-    private void handleInput() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-            currentCharacterIndex = (currentCharacterIndex + 1) % characters.length;
-        }
+    @Override
+    public void resize(int width, int height) {
+    }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            getActiveCharacter().moveLeft();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            getActiveCharacter().moveRight();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            getActiveCharacter().jump();
-        }
+    @Override
+    public void show() {
+    }
+
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        background.dispose();
-        for (Character character : characters) {
-            character.dispose();
+        if (gameLogic != null) {
+            gameLogic.dispose();
         }
     }
 }

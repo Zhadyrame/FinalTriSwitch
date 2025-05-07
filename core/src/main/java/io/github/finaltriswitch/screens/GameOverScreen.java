@@ -3,27 +3,25 @@ package io.github.finaltriswitch.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.GL20;
 import io.github.finaltriswitch.FinalTriSwitch;
 
-public class MenuScreen extends ScreenAdapter {
+public class GameOverScreen extends ScreenAdapter {
     private FinalTriSwitch game;
-    private Texture menuTexture;
+    private float record;
 
-    public MenuScreen(FinalTriSwitch game) {
+    public GameOverScreen(FinalTriSwitch game, float record) {
         this.game = game;
-    }
-
-    @Override
-    public void show() {
-        menuTexture = new Texture("assets/menu.png");
+        this.record = record;
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (game != null && game.getBatch() != null) {
             game.getBatch().begin();
-            if (menuTexture != null) game.getBatch().draw(menuTexture, 0, 0);
+            Gdx.app.log("GameOver", "Игра закончена! Рекорд: " + record + " секунд");
             game.getBatch().end();
         }
 
@@ -34,6 +32,5 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        if (menuTexture != null) menuTexture.dispose();
     }
 }

@@ -7,7 +7,7 @@ public class Level1 {
     private Texture background;
 
     public Level1() {
-        background = new Texture("level1.png");
+        background = new Texture("assets/level1.png");
     }
 
     public void render(SpriteBatch batch) {

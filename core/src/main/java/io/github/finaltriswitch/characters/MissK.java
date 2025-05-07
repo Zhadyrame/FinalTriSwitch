@@ -1,32 +1,18 @@
 package io.github.finaltriswitch.characters;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Gdx;
 
-public class MissK implements Character {
-    private Texture texture;
-    private float x, y;
+public class MissK extends Character {
+    public MissK(float x, float y) {
+        super("assets/missk.png", x, y);
+    }
 
-    public MissK() {
-        texture = new Texture("characters/missk.png");
-        x = 200;
-        y = 100;
+    public void magnetize(float targetX, float targetY) {
+        Gdx.app.log("MissK", "Magnetizing to (" + targetX + ", " + targetY + ")");
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, 64, 64);
+    public void act(float delta) {
+        super.act(delta);
     }
-
-    @Override
-    public void moveLeft() { x -= 5; }
-
-    @Override
-    public void moveRight() { x += 5; }
-
-    @Override
-    public void jump() { y += 20; }
-
-    @Override
-    public void dispose() { texture.dispose(); }
 }

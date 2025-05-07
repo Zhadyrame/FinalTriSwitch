@@ -1,32 +1,24 @@
-package io.github.finaltriswitch.utils;
+package io.github.finaltriswitch.untils;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Input;
-import io.github.finaltriswitch.characters.MissJ;
-import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.Gdx;
+import io.github.finaltriswitch.logic.GameLogic;
 
-public class InputHandler extends InputAdapter {
-
-    private MissJ player;
-    private Sound jumpSound;
-
-    public InputHandler(MissJ player, Sound jumpSound) {
-        this.player = player;
-        this.jumpSound = jumpSound;
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.LEFT) {
-            player.moveLeft();
-        } else if (keycode == Input.Keys.RIGHT) {
-            player.moveRight();
-        } else if (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) {
-            if (player.jump()) {
-                jumpSound.play();
+public class InputHandler {
+    public static void setupInput(GameLogic logic) {
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Keys.NUM_1) {
+                    logic.switchToMissJ();
+                } else if (keycode == Keys.NUM_2) {
+                    logic.switchToMissK();
+                } else if (keycode == Keys.NUM_3) {
+                    logic.switchToMrB();
+                }
+                return true;
             }
-        }
-        return true;
+        });
     }
 }
-
