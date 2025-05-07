@@ -30,4 +30,3 @@ public class MrB implements Character {
     @Override
     public void dispose() { texture.dispose(); }
 }
-
