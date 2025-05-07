@@ -1,26 +1,33 @@
 package io.github.finaltriswitch.characters;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
-public class MrB {
+public class MrB implements Character {
     private Texture texture;
-    private Vector2 position;
+    private float x, y;
 
     public MrB() {
-        texture = new Texture("mrb.png");
-        position = new Vector2(400, 100);
+        texture = new Texture("characters/mrb.png");
+        x = 300;
+        y = 100;
     }
 
-    public void update(float delta) {
-        // MrB стоит на месте
-    }
-
+    @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, position.x, position.y);
+        batch.draw(texture, x, y, 64, 64);
     }
 
-    public void dispose() {
-        texture.dispose();
-    }
+    @Override
+    public void moveLeft() { x -= 5; }
+
+    @Override
+    public void moveRight() { x += 5; }
+
+    @Override
+    public void jump() { y += 20; }
+
+    @Override
+    public void dispose() { texture.dispose(); }
 }
+

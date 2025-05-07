@@ -1,30 +1,34 @@
 package io.github.finaltriswitch.characters;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
-public class MissJ {
+public class MissJ implements Character {
     private Texture texture;
-    private Vector2 position;
-    private float speedY = 20f;
+    private float x, y;
 
     public MissJ() {
-        texture = new Texture("missj.png");
-        position = new Vector2(10, 10);
+        texture = new Texture("characters/missj.png");
+        x = 100;
+        y = 100;
     }
 
-    public void update(float delta) {
-        position.y += speedY * delta;
-        if (position.y > 30) {
-            position.y = 10;
-        }
-    }
-
+    @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, position.x, position.y);
+        batch.draw(texture, x, y, 64, 64);
     }
 
-    public void dispose() {
-        texture.dispose();
-    }
+    @Override
+    public void moveLeft() { x -= 5; }
+
+    @Override
+    public void moveRight() { x += 5; }
+
+    @Override
+    public void jump() { y += 20; }
+
+    @Override
+    public void dispose() { texture.dispose(); }
 }
+
+
