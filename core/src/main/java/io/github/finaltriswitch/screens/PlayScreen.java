@@ -15,17 +15,17 @@ import io.github.finaltriswitch.levels.Level1;
 import io.github.finaltriswitch.levels.Level2;
 
 public class PlayScreen extends ScreenAdapter {
-    private FinalTriSwitch game;
-    private Stage stage;
-    private OrthographicCamera camera;
-    private FitViewport viewport;
-    private GameLogic gameLogic;
-    private Level1 level1;
-    private Level2 level2;
+    private FinalTriSwitch game;      // Ссылка на основной класс игры
+    private Stage stage;              // Сцена для UI и актёров
+    private OrthographicCamera camera;// Камера
+    private FitViewport viewport;     // Вьюпорт с фиксированным соотношением
+    private GameLogic gameLogic;      // Основная игровая логика
+    private Level1 level1;            // Уровень 1
+    private Level2 level2;            // Уровень 2
 
-    private int currentLevel;
-    private float timer;
-    private float record;
+    private int currentLevel;         // Текущий уровень
+    private float timer;              // Таймер прохождения уровня
+    private float record;             // Рекордное время
 
     public PlayScreen(FinalTriSwitch game) {
         this.game = game;
@@ -40,6 +40,7 @@ public class PlayScreen extends ScreenAdapter {
         timer = 0;
         record = 0;
 
+        // Обработчик ввода для переключения персонажей
         Gdx.input.setInputProcessor(new com.badlogic.gdx.InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
@@ -52,6 +53,7 @@ public class PlayScreen extends ScreenAdapter {
             }
         });
     }
+
     private void handleInput() {
         float speed = 400 * Gdx.graphics.getDeltaTime();
         Character active = (gameLogic != null) ? gameLogic.getActiveCharacter() : null;
@@ -60,23 +62,23 @@ public class PlayScreen extends ScreenAdapter {
             float nextX = active.getX();
             float nextY = active.getY();
 
-            // Вычисляем nextX / nextY
+            // Управление движением
             if (Gdx.input.isKeyPressed(Keys.LEFT)) nextX -= speed;
             if (Gdx.input.isKeyPressed(Keys.RIGHT)) nextX += speed;
             if (Gdx.input.isKeyPressed(Keys.UP)) nextY += speed;
             if (Gdx.input.isKeyPressed(Keys.DOWN)) nextY -= speed;
 
-            // Проверяем столкновение с блоком (только на 2 уровне)
             boolean blocked = false;
+
+            // Проверка блоков на 2 уровне
             if (currentLevel == 2 && level2 != null) {
                 float blockX = level2.getBlockX();
                 float blockY = level2.getBlockY();
-                float blockSize = 64;  // предполагаем размер блока
+                float blockSize = 64;
 
                 boolean touchingBlockX = Math.abs(nextX - blockX) < blockSize;
                 boolean touchingBlockY = Math.abs(nextY - blockY) < blockSize;
 
-                // MissK может толкать блок
                 if (active instanceof MissK && Gdx.input.isKeyPressed(Keys.M)) {
                     float newBlockX = level2.getBlockX() +
                         (Gdx.input.isKeyPressed(Keys.LEFT) ? -speed : Gdx.input.isKeyPressed(Keys.RIGHT) ? speed : 0);
@@ -86,7 +88,6 @@ public class PlayScreen extends ScreenAdapter {
                 }
             }
 
-            // Двигаем персонажа, если не заблокировано
             if (!blocked) {
                 active.setX(nextX);
                 active.setY(nextY);
@@ -98,8 +99,6 @@ public class PlayScreen extends ScreenAdapter {
             }
         }
     }
-
-
 
     private void checkWinCondition() {
         Character active = gameLogic.getActiveCharacter();

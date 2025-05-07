@@ -11,23 +11,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.finaltriswitch.FinalTriSwitch;
 
 public class GameOverScreen extends ScreenAdapter {
-    private FinalTriSwitch game;
-    private float record;
-    private BitmapFont font;
-    private GlyphLayout layout;
+    private FinalTriSwitch game;     // Ссылка на игру
+    private float record;            // Рекордное время
+    private BitmapFont font;         // Шрифт
+    private GlyphLayout layout;      // Помощь в выравнивании текста
 
     public GameOverScreen(FinalTriSwitch game, float record) {
         this.game = game;
         this.record = record;
-        this.font = new BitmapFont();  // стандартный шрифт
-        this.font.getData().setScale(2f);  // Увеличиваем размер шрифта
-        this.font.setColor(Color.WHITE);   // Белый цвет
+        this.font = new BitmapFont();
+        this.font.getData().setScale(2f);
+        this.font.setColor(Color.WHITE);
         this.layout = new GlyphLayout();
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 1, 1);  // Синий фон
+        Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         SpriteBatch batch = game.getBatch();
@@ -43,7 +43,6 @@ public class GameOverScreen extends ScreenAdapter {
         float y = (Gdx.graphics.getHeight() + layout.height) / 2;
 
         font.draw(batch, message, x, y);
-
         batch.end();
 
         if (Gdx.input.isKeyPressed(Keys.ENTER)) {

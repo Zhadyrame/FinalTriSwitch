@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import io.github.finaltriswitch.FinalTriSwitch;
 
 public class MenuScreen extends ScreenAdapter {
-    private FinalTriSwitch game;
-    private Texture menuTexture;
+    private FinalTriSwitch game;      // Ссылка на игру
+    private Texture menuTexture;      // Текстура меню
 
     public MenuScreen(FinalTriSwitch game) {
         this.game = game;
@@ -36,7 +36,7 @@ public class MenuScreen extends ScreenAdapter {
         if (game != null && game.getBatch() != null) {
             game.getBatch().begin();
             if (menuTexture != null) {
-                game.getBatch().draw(menuTexture, 0, 0, 700, 500); // Новый размер меню
+                game.getBatch().draw(menuTexture, 0, 0, 700, 500);
             } else {
                 Gdx.app.log("MenuScreen", "menuTexture is null, displaying fallback");
                 game.getBatch().draw(new Texture("badlogic.png"), 0, 0, 1600, 1200);

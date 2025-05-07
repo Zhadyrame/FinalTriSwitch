@@ -6,14 +6,14 @@ import com.badlogic.gdx.assets.AssetManager;
 import io.github.finaltriswitch.screens.MenuScreen;
 
 public class FinalTriSwitch extends Game {
-    private SpriteBatch batch;
-    public AssetManager manager;
+    private SpriteBatch batch;          // Рисует спрайты
+    public AssetManager manager;        // Менеджер ассетов
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
-        setScreen(new MenuScreen(this));
+        setScreen(new MenuScreen(this)); // Запускаем с меню
     }
 
     @Override
